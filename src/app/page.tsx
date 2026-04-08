@@ -11,11 +11,18 @@ export default function AbsDiagnosticTool() {
   const [searchTerm, setSearchTerm] = useState('');
   const [answers, setAnswers] = useState<Record<number, boolean>>({});
 
-  // 1. 질문 데이터 분리 로직 (수정됨)
-  // Step 1에 포함할 문항 ID: 기본(1~4) + 연구개발(5) + 원물유통(10) + 전통지식(14)
-  const step1Ids = [1, 2, 3, 4, 5, 10, 14];
-  const basicQuestions = QUESTIONS.filter(q => step1Ids.includes(q.id));
-  const legalQuestions = QUESTIONS.filter(q => !step1Ids.includes(q.id));
+  // 1. 질문 데이터 분리 로직 (데이터 형식을 숫자로 강제 변환하여 비교)
+const step1Ids = [4, 5, 16, 10];
+
+// Step 1: id를 숫자로 변환해서 비교하여 정확히 일치하는 것만 추출
+const basicQuestions = QUESTIONS.filter(q => 
+  step1Ids.includes(Number(q.id))
+);
+
+// Step 2: Step 1에 포함되지 않은 나머지 문항들
+const legalQuestions = QUESTIONS.filter(q => 
+  !step1Ids.includes(Number(q.id))
+);
 
   // 국가 검색 필터링
   const filteredCountries = countryDB.filter(c => 

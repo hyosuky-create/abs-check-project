@@ -15,7 +15,7 @@ export const QUESTIONS = [
     category: "resource"
   },
   {
-    id: 8,
+    id: 16,
     text: "현지 원주민의 전통지식을 활용합니까?",
     description: "해당 자원을 오랜 기간 이용해 온 현지인들의 특별한 노하우나 처방 정보를 활용하는 경우입니다.",
     examples: ["인도네시아의 자무음료와 같이 현지 부족의 민간 요법 활용 기록 등"],
