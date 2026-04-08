@@ -10,7 +10,7 @@ export const QUESTIONS = [
   {
     id: 5,
     text: "자원 이용 목적이 연구개발(R&D)을 포함하고 있습니까?",
-    description: "자원의 성분에 대해 분석, 합성, 개량 등의 행위를 하는지를 확인합니다.",
+    description: "자원의 성분에 대해 분석, 합성, 개량 등의 행위를 하는지를 확인합니다.</BR> 완제품 생산을 위하여 원료를 단순 배합하는 것은 해당하지 않습니다",
     examples: ["효능 검증", "신규 화합물 탐색", "품종 개량"],
     category: "resource"
   },
@@ -18,7 +18,7 @@ export const QUESTIONS = [
     id: 8,
     text: "현지 원주민의 전통지식을 활용합니까?",
     description: "해당 자원을 오랜 기간 이용해 온 현지인들의 특별한 노하우나 처방 정보를 활용하는 경우입니다.",
-    examples: ["현지 부족의 민간 요법 활용 기록 등"],
+    examples: ["인도네시아의 자무음료와 같이 현지 부족의 민간 요법 활용 기록 등"],
     category: "resource"
   },
   {
