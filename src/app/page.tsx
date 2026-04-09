@@ -83,6 +83,36 @@ const legalQuestions = QUESTIONS.filter(q =>
     return questions.every(q => answers[q.id] !== undefined);
   };
 
+// 검색 실행 함수
+const handleBoardSearch = () => {
+  if (!selectedCountry) return;
+
+  // 1. 폼 객체 생성
+  const form = document.createElement('form');
+  form.method = 'POST';
+  form.action = 'https://www.biosafety.or.kr/abs/page/q_01';
+  form.target = '_blank'; // 새 창에서 열기
+
+  // 2. 검색 조건 설정 (1: 제목)
+  const conditionInput = document.createElement('input');
+  conditionInput.type = 'hidden';
+  conditionInput.name = 'searchCondition';
+  conditionInput.value = '1'; 
+  form.appendChild(conditionInput);
+
+  // 3. 검색어 설정 (국가명)
+  const keywordInput = document.createElement('input');
+  keywordInput.type = 'hidden';
+  keywordInput.name = 'searchKeyword';
+  keywordInput.value = selectedCountry.nameKo;
+  form.appendChild(keywordInput);
+
+  // 4. 폼 전송
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+};
+  
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans pb-20">
       <header className="bg-white border-b-4 border-[#004098] p-6 shadow-sm">
@@ -260,15 +290,14 @@ const legalQuestions = QUESTIONS.filter(q =>
                       ABS 산업지원센터 게시판에서 <strong>'{selectedCountry.nameKo}'</strong> 관련 질의응답 사례를 확인해보세요.
                     </p>
                   </div>
-                  <a 
-                    href={`https://www.biosafety.or.kr/abs/page/q_01?searchCondition=1&searchKeyword=${encodeURIComponent(selectedCountry.nameKo)}`}
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
-                  >
-                    <Search size={18} />
-                    제목 검색 결과 보기
-                  </a>
+                  {/* 수정된 버튼 코드 */}
+<button 
+  onClick={handleBoardSearch}
+  className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
+>
+  <Search size={18} />
+  '{selectedCountry.nameKo}' 제목 검색 결과 보기
+</button>
                 </div>
               </div>
 
