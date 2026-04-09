@@ -87,30 +87,13 @@ const legalQuestions = QUESTIONS.filter(q =>
 const handleBoardSearch = () => {
   if (!selectedCountry) return;
 
-  // 1. 폼 객체 생성
-  const form = document.createElement('form');
-  form.method = 'POST';
-  form.action = 'https://www.biosafety.or.kr/abs/page/q_01';
-  form.target = '_blank'; // 새 창에서 열기
+  const countryName = selectedCountry.nameKo;
 
-  // 2. 검색 조건 설정 (1: 제목)
-  const conditionInput = document.createElement('input');
-  conditionInput.type = 'hidden';
-  conditionInput.name = 'searchCondition';
-  conditionInput.value = '1'; 
-  form.appendChild(conditionInput);
-
-  // 3. 검색어 설정 (국가명)
-  const keywordInput = document.createElement('input');
-  keywordInput.type = 'hidden';
-  keywordInput.name = 'searchKeyword';
-  keywordInput.value = selectedCountry.nameKo;
-  form.appendChild(keywordInput);
-
-  // 4. 폼 전송
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
+  // 1. 안내 메시지 띄우기 (사용자에게 검색법 안내)
+  alert(`해당 국가(${countryName}) 관련 사례를 확인하시려면,\n이동하는 페이지의 검색창에 직접 '${countryName}'을 입력해 주세요.`);
+  
+  // 2. 게시판 주소를 새 탭으로 열기
+  window.open("https://www.biosafety.or.kr/abs/page/q_01", "_blank");
 };
   
   return (
@@ -292,11 +275,12 @@ const handleBoardSearch = () => {
                   </div>
                   {/* 수정된 버튼 코드 */}
 <button 
+  type="button" // 폼 전송(submit)을 방지하기 위해 반드시 type="button" 명시
   onClick={handleBoardSearch}
   className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
 >
   <Search size={18} />
-  '{selectedCountry.nameKo}' 제목 검색 결과 보기
+  '{selectedCountry.nameKo}' 관련 게시글 확인하기
 </button>
                 </div>
               </div>
