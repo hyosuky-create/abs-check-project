@@ -83,19 +83,6 @@ const legalQuestions = QUESTIONS.filter(q =>
     return questions.every(q => answers[q.id] !== undefined);
   };
 
-// 검색 실행 함수
-const handleBoardSearch = () => {
-  if (!selectedCountry) return;
-
-  const countryName = selectedCountry.nameKo;
-
-  // 1. 안내 메시지 띄우기 (사용자에게 검색법 안내)
-  alert(`해당 국가(${countryName}) 관련 사례를 확인하시려면,\n이동하는 페이지의 검색창에 직접 '${countryName}'을 입력해 주세요.`);
-  
-  // 2. 게시판 주소를 새 탭으로 열기
-  window.open("https://www.biosafety.or.kr/abs/page/q_01", "_blank");
-};
-  
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans pb-20">
       <header className="bg-white border-b-4 border-[#004098] p-6 shadow-sm">
@@ -274,14 +261,26 @@ const handleBoardSearch = () => {
                     </p>
                   </div>
                   {/* 수정된 버튼 코드 */}
-<button 
-  type="button" // 폼 전송(submit)을 방지하기 위해 반드시 type="button" 명시
-  onClick={handleBoardSearch}
-  className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
->
-  <Search size={18} />
-  '{selectedCountry.nameKo}' 관련 게시글 확인하기
-</button>
+<div className="mb-10 bg-blue-50 p-6 rounded-xl border border-blue-100">
+  <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+    <div>
+      <p className="text-sm text-blue-600 font-bold mb-1">실무 참고 사례</p>
+      <p className="text-gray-800 font-medium leading-relaxed">
+        '{selectedCountry.nameKo}' 관련 질의응답 사례를 게시판에서 확인해보세요.
+      </p>
+    </div>
+    <a 
+      href="https://www.biosafety.or.kr/abs/page/q_01"
+      target="_blank" 
+      rel="noopener noreferrer"
+      onClick={() => alert(`'${selectedCountry.nameKo}'(이)가 기억되었습니다.\n게시판 검색창에 직접 입력하여 검색해주세요!`)}
+      className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
+    >
+      <Search size={18} />
+      게시판 바로가기
+    </a>
+  </div>
+</div>
                 </div>
               </div>
 
