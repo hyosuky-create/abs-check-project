@@ -87,7 +87,7 @@ const legalQuestions = QUESTIONS.filter(q =>
     <div className="min-h-screen bg-[#F8F9FA] font-sans pb-20">
       <header className="bg-white border-b-4 border-[#004098] p-6 shadow-sm">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <h1 className="text-[#004098] font-bold text-2xl">해외 유전자원 나고야의정서 자가진단</h1>
+          <h1 className="text-[#004098] font-bold text-2xl">나고야의정서 이행 체크리스트</h1>
           <p className="text-sm text-gray-500 hidden md:block">한국바이오안전성정보센터 ABS 산업지원센터</p>
         </div>
       </header>
