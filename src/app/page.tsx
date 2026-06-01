@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { countryDB } from '@/data/country'; 
 import { QUESTIONS } from '@/data/questions';
-import { Search, ChevronRight, CheckCircle, Info, ExternalLink, Users, ShieldCheck, FileText, ArrowLeft } from 'lucide-react';
+import { Search, ChevronRight, CheckCircle, Info, ExternalLink, Users, ShieldCheck, FileText, ArrowLeft, Globe } from 'lucide-react';
 
 export default function AbsDiagnosticTool() {
   const [step, setStep] = useState(0); // 0: 국가선택, 1: 기본체크, 2: 법률체크, 3: 결과
@@ -12,17 +13,17 @@ export default function AbsDiagnosticTool() {
   const [answers, setAnswers] = useState<Record<number, boolean>>({});
 
   // 1. 질문 데이터 분리 로직 (데이터 형식을 숫자로 강제 변환하여 비교)
-const step1Ids = [4, 5, 16, 10];
+  const step1Ids = [4, 5, 16, 10];
 
-// Step 1: id를 숫자로 변환해서 비교하여 정확히 일치하는 것만 추출
-const basicQuestions = QUESTIONS.filter(q => 
-  step1Ids.includes(Number(q.id))
-);
+  // Step 1: id를 숫자로 변환해서 비교하여 정확히 일치하는 것만 추출
+  const basicQuestions = QUESTIONS.filter(q => 
+    step1Ids.includes(Number(q.id))
+  );
 
-// Step 2: Step 1에 포함되지 않은 나머지 문항들
-const legalQuestions = QUESTIONS.filter(q => 
-  !step1Ids.includes(Number(q.id))
-);
+  // Step 2: Step 1에 포함되지 않은 나머지 문항들
+  const legalQuestions = QUESTIONS.filter(q => 
+    !step1Ids.includes(Number(q.id))
+  );
 
   // 국가 검색 필터링
   const filteredCountries = countryDB.filter(c => 
@@ -145,7 +146,7 @@ const legalQuestions = QUESTIONS.filter(q =>
           </div>
         )}
 
-        {/* Step 1: 기본 대상 및 활용 형태 확인 (총 7문항) */}
+        {/* Step 1: 기본 대상 및 활용 형태 확인 */}
         {step === 1 && (
           <div className="bg-white p-8 rounded-xl shadow-lg animate-in slide-in-from-right duration-300">
             <h2 className="text-xl font-bold mb-8 flex items-center gap-2 border-b pb-4">
@@ -242,6 +243,7 @@ const legalQuestions = QUESTIONS.filter(q =>
         {/* Step 3: 결과 리포트 */}
         {step === 3 && result && (
           <div className="bg-white rounded-xl shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+            {/* 결과 헤더 */}
             <div className={`p-10 text-white ${result.color}`}>
               <div className="flex items-center gap-3 mb-2">
                 <CheckCircle size={40} />
@@ -251,7 +253,8 @@ const legalQuestions = QUESTIONS.filter(q =>
             </div>
 
             <div className="p-10">
-              {/* 국가별 사례 제목 검색 버튼 (정교화된 링크 적용) */}
+              
+              {/* 중복 제거 및 깔끔해진 실무 참고 사례 박스 */}
               <div className="mb-10 bg-blue-50 p-6 rounded-xl border border-blue-100">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                   <div>
@@ -260,34 +263,23 @@ const legalQuestions = QUESTIONS.filter(q =>
                       ABS 산업지원센터 게시판에서 <strong>'{selectedCountry.nameKo}'</strong> 관련 질의응답 사례를 확인해보세요.
                     </p>
                   </div>
-                  {/* 수정된 버튼 코드 */}
-<div className="mb-10 bg-blue-50 p-6 rounded-xl border border-blue-100">
-  <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-    <div>
-      <p className="text-sm text-blue-600 font-bold mb-1">실무 참고 사례</p>
-      <p className="text-gray-800 font-medium leading-relaxed">
-        '{selectedCountry.nameKo}' 관련 질의응답 사례를 게시판에서 확인해보세요.
-      </p>
-    </div>
-    <a 
-      href="https://www.biosafety.or.kr/abs/page/q_01"
-      target="_blank" 
-      rel="noopener noreferrer"
-      onClick={() => alert(`'${selectedCountry.nameKo}'(이)가 기억되었습니다.\n게시판 검색창에 직접 입력하여 검색해주세요!`)}
-      className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
-    >
-      <Search size={18} />
-      게시판 바로가기
-    </a>
-  </div>
-</div>
+                  <a 
+                    href="https://www.biosafety.or.kr/abs/page/q_01"
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    onClick={() => alert(`'${selectedCountry.nameKo}'(이)가 기억되었습니다.\n게시판 검색창에 직접 입력하여 검색해주세요!`)}
+                    className="inline-flex items-center gap-2 bg-white text-[#004098] px-6 py-3 rounded-lg font-bold border-2 border-[#004098] hover:bg-[#004098] hover:text-white transition-all shadow-sm shrink-0"
+                  >
+                    <Search size={18} />
+                    게시판 바로가기
+                  </a>
                 </div>
               </div>
 
+              {/* 가이드라인 */}
               <h3 className="text-xl font-bold mb-6 text-gray-800 flex items-center gap-2 border-b pb-3">
                 <Info className="text-[#004098]" /> 안전한 자원 활용을 위한 가이드라인
               </h3>
-              
               <ul className="space-y-6 mb-12">
                 {result.guidelines.map((guide, idx) => (
                   <li key={idx} className="flex gap-4 items-start">
@@ -297,36 +289,51 @@ const legalQuestions = QUESTIONS.filter(q =>
                 ))}
               </ul>
 
+              {/* 사용자 행동 유도(CTA) 버튼 레이아웃 재배치 */}
               <div className="bg-[#F8F9FA] border border-gray-200 rounded-2xl p-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <Users className="text-[#004098]" size={24} />
-                  <h4 className="text-xl font-bold text-gray-800">도움이 필요하신가요?</h4>
+                  <Globe className="text-[#52A55D]" size={28} />
+                  <h4 className="text-xl font-bold text-gray-800">국가별 상세 정보 및 지원 확인</h4>
                 </div>
-                <p className="text-gray-600 mb-8 leading-relaxed">
-                  나고야의정서는 복잡해 보이지만, 전문가와 함께라면 차근차근 해결할 수 있습니다. 
-                  모든 상담 내용은 기업의 비즈니스 안전을 위해 철저히 보호됩니다.
+                <p className="text-gray-600 mb-6 leading-relaxed">
+                  진단하신 <strong>{selectedCountry.nameKo}</strong>의 최신 ABSCH 실시간 규제 현황과 연락처를 확인하시거나, 전문가의 맞춤형 상담을 받아보세요.
                 </p>
-                <div className="flex flex-col md:flex-row gap-4">
-                  <a 
-                    href="https://www.biosafety.or.kr/portal/page/a_03?returnUrl=%2Fabs%2Fpage%2Fr_03" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-[#004098] text-white py-4 px-8 rounded-lg font-bold hover:bg-opacity-90 transition-all flex-1 shadow-lg"
+                
+                <div className="flex flex-col gap-4">
+                  {/* 메인 버튼: 방금 만든 상세 페이지를 가장 강조합니다 */}
+                  <Link
+                    href={`/country/${selectedCountry.nameEn.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '')}`}
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#52A55D] text-white py-5 px-8 rounded-xl font-bold text-lg hover:bg-opacity-90 transition-all shadow-lg"
                   >
-                    <ExternalLink size={20} />
-                    Help desk 상담요청 바로가기
-                  </a>
-                  <button 
-                    onClick={() => setStep(0)}
-                    className="flex-1 border-2 border-gray-200 py-4 rounded-lg font-bold text-gray-600 hover:bg-gray-50 transition-all"
-                  >
-                    처음부터 다시 진단
-                  </button>
+                    <Globe size={22} />
+                    {selectedCountry.nameKo} 실시간 ABS 상세 정보 조회하기
+                  </Link>
+
+                  {/* 서브 버튼 2개: 상담 및 다시 진단은 그 아래에 단정하게 배치합니다 */}
+                  <div className="flex flex-col md:flex-row gap-4 mt-2">
+                    <a 
+                      href="https://www.biosafety.or.kr/portal/page/a_03?returnUrl=%2Fabs%2Fpage%2Fr_03" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-800 text-white py-4 px-6 rounded-lg font-bold hover:bg-gray-700 transition-all shadow-md"
+                    >
+                      <Users size={18} />
+                      Help desk 상담요청
+                    </a>
+                    <button 
+                      onClick={() => setStep(0)}
+                      className="flex-1 bg-white border-2 border-gray-200 py-4 px-6 rounded-lg font-bold text-gray-600 hover:bg-gray-50 transition-all shadow-sm"
+                    >
+                      처음부터 다시 진단
+                    </button>
+                  </div>
                 </div>
+
               </div>
             </div>
           </div>
         )}
+
       </main>
     </div>
   );
